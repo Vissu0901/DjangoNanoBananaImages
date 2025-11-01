@@ -8,6 +8,7 @@ from rest_framework import permissions, status
 
 class UserRegister(APIView):
 	permission_classes = [permissions.AllowAny]
+	authentication_classes = []
 	def post(self, request):
 		serializer = UserRegisterSerializer(data=request.data)
 		if serializer.is_valid(raise_exception=True):
@@ -18,7 +19,7 @@ class UserRegister(APIView):
 
 class UserLogin(APIView):
 	permission_classes = [permissions.AllowAny]
-	authentication_classes = [SessionAuthentication]
+	authentication_classes = []
 	def post(self, request):
 		serializer = UserLoginSerializer(data=request.data)
 		if serializer.is_valid(raise_exception=True):
