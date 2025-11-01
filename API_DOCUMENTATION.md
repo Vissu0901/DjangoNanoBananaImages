@@ -4,6 +4,8 @@ This document provides details on the API endpoints for the GeminiNanoBanana pro
 
 **Base URL**: `http://127.0.0.1:8000/` (for local development) or your production URL.
 
+**Note:** The browsable API endpoints under `/api-auth/` have been removed. Please use the endpoints documented below for authentication.
+
 ---
 
 ## Authentication
