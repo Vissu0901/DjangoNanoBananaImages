@@ -30,6 +30,9 @@ Create a new user account.
     ```
 
 *   **Validation Rules**:
+    *   `username`: Must be alphanumeric (no special characters).
+    *   `username`: Must be at least 5 characters long.
+    *   `username`: Must start with a letter.
     *   `email`: Must be a unique email address.
     *   `email`: Must contain an `@` symbol and end with either `.com` or `.in`.
 
@@ -114,7 +117,7 @@ Log out the currently authenticated user.
     ```bash
     curl -X POST \
       http://127.0.0.1:8000/api/logout \
-      -b cookie-jar.txt # Use -b to send the session cookie
+      -b cookie-jar.txt # Send the session cookie
     ```
 
 *   **Success Response (200 OK)**:

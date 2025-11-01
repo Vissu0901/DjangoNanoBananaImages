@@ -17,6 +17,15 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Email must contain @ and end with .com or .in")
         return value
 
+    def validate_username(self, value):
+        if not value.isalnum():
+            raise serializers.ValidationError("Username must be alphanumeric.")
+        if len(value) < 5:
+            raise serializers.ValidationError("Username must be at least 5 characters long.")
+        if not value[0].isalpha():
+            raise serializers.ValidationError("Username must start with a letter.")
+        return value
+
     def create(self, validated_data):
         UserModel = get_user_model()
         user = UserModel.objects.create_user(

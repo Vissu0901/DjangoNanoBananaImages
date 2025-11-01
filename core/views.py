@@ -6,6 +6,11 @@ from .serializers import UserRegisterSerializer, UserLoginSerializer, UserSerial
 from rest_framework import permissions, status
 
 
+class WelcomeView(APIView):
+    permission_classes = [permissions.AllowAny]
+    def get(self, request):
+        return Response({'message': 'welcome, to Nano Banana image generator'}, status=status.HTTP_200_OK)
+
 class UserRegister(APIView):
 	permission_classes = [permissions.AllowAny]
 	authentication_classes = []
