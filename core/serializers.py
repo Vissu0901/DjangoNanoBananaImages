@@ -44,11 +44,11 @@ class UserLoginSerializer(serializers.Serializer):
         try:
             user = UserModel.objects.get(email=validated_data['email'])
         except UserModel.DoesNotExist:
-            raise ValidationError('user not found')
+            raise serializers.ValidationError("No account is associated with this email address.")
 
         user = authenticate(username=user.username, password=validated_data['password'])
         if not user:
-            raise ValidationError('invalid password')
+            raise serializers.ValidationError("The password you entered is incorrect.")
 
         return user
 

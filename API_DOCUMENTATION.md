@@ -104,6 +104,11 @@ Authenticate a user and create a session.
     }
     ```
 
+*   **Error Responses**:
+    *   `400 Bad Request`:
+        *   `{"detail": "No account is associated with this email address."}`
+        *   `{"detail": "The password you entered is incorrect."}`
+
 ### 3. User Logout
 
 Log out the currently authenticated user.
