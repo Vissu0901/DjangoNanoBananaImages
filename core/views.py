@@ -11,10 +11,9 @@ class UserRegister(APIView):
 	authentication_classes = []
 	def post(self, request):
 		serializer = UserRegisterSerializer(data=request.data)
-		if serializer.is_valid(raise_exception=True):
-			user = serializer.save()
-			return Response(serializer.data, status=status.HTTP_201_CREATED)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		serializer.is_valid(raise_exception=True)
+		user = serializer.save()
+		return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class UserLogin(APIView):
@@ -22,13 +21,13 @@ class UserLogin(APIView):
 	authentication_classes = []
 	def post(self, request):
 		serializer = UserLoginSerializer(data=request.data)
-		if serializer.is_valid(raise_exception=True):
-			user = serializer.check_user(serializer.validated_data)
-			login(request, user)
-			return Response({
-                'message': 'development in progress',
-                'email': user.email
-            }, status=status.HTTP_200_OK)
+		serializer.is_valid(raise_exception=True)
+		user = serializer.check_user(serializer.validated_data)
+		login(request, user)
+		return Response({
+            'message': 'development in progress',
+            'email': user.email
+        }, status=status.HTTP_200_OK)
 
 
 class UserLogout(APIView):

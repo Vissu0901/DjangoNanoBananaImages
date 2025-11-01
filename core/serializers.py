@@ -1,16 +1,24 @@
 from django.contrib.auth import get_user_model, authenticate
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
-
-UserModel = get_user_model()
+import re
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserModel
+        model = get_user_model()
         fields = ('username', 'email', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
+    def validate_email(self, value):
+        UserModel = get_user_model()
+        if UserModel.objects.filter(email=value).exists():
+            raise serializers.ValidationError("A user with that email already exists.")
+        if not re.match(r"[^@]+@[^@]+\.(com|in)$", value):
+            raise serializers.ValidationError("Email must contain @ and end with .com or .in")
+        return value
+
     def create(self, validated_data):
+        UserModel = get_user_model()
         user = UserModel.objects.create_user(
             email=validated_data['email'],
             password=validated_data['password'],
@@ -23,6 +31,7 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
     def check_user(self, validated_data):
+        UserModel = get_user_model()
         try:
             user = UserModel.objects.get(email=validated_data['email'])
         except UserModel.DoesNotExist:
@@ -36,5 +45,5 @@ class UserLoginSerializer(serializers.Serializer):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserModel
+        model = get_user_model()
         fields = ('email', 'username')

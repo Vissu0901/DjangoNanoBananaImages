@@ -29,6 +29,10 @@ Create a new user account.
     }
     ```
 
+*   **Validation Rules**:
+    *   `email`: Must be a unique email address.
+    *   `email`: Must contain an `@` symbol and end with either `.com` or `.in`.
+
 *   **Example `curl` Request**:
 
     ```bash
@@ -53,7 +57,7 @@ Create a new user account.
     ```
 
 *   **Error Responses**:
-    *   `400 Bad Request`: If the request body is missing required fields or if the data is invalid (e.g., email already exists).
+    *   `400 Bad Request`: If the request body is missing required fields or if the data is invalid (e.g., email already exists, email format is incorrect).
 
 ### 2. User Login
 
