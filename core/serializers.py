@@ -52,6 +52,16 @@ class UserLoginSerializer(serializers.Serializer):
 
         return user
 
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    confirm_new_password = serializers.CharField(required=True)
+
+    def validate(self, data):
+        if data['new_password'] != data['confirm_new_password']:
+            raise serializers.ValidationError({'new_password': "New passwords must match."})
+        return data
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()

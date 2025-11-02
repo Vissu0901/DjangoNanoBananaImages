@@ -115,6 +115,7 @@ Log out the currently authenticated user.
 
 *   **Endpoint**: `/api/logout`
 *   **Method**: `POST`
+*   **Authentication**: Session Authentication required.
 *   **Description**: This endpoint logs out the user by clearing their session.
 
 *   **Example `curl` Request**:
@@ -127,6 +128,9 @@ Log out the currently authenticated user.
 
 *   **Success Response (200 OK)**:
     *   An empty response is returned upon successful logout.
+
+*   **Error Responses**:
+    *   `401 Unauthorized`: If the user is not authenticated.
 
 ### 4. Get User Details
 
@@ -155,3 +159,51 @@ Retrieve the details of the currently authenticated user.
         }
     }
     ```
+
+### 5. Change Password
+
+Change the password for the currently authenticated user.
+
+*   **Endpoint**: `/api/change-password/`
+*   **Method**: `POST`
+*   **Authentication**: Session Authentication required.
+*   **Description**: This endpoint allows a logged-in user to change their password by providing their old password and a new password (with confirmation).
+*   **Headers**:
+    *   `Content-Type`: `application/json`
+*   **Request Body**:
+
+    ```json
+    {
+        "old_password": "current_password",
+        "new_password": "new_strong_password",
+        "confirm_new_password": "new_strong_password"
+    }
+    ```
+
+*   **Example `curl` Request**:
+
+    ```bash
+    curl -X POST \
+      http://127.0.0.1:8000/api/change-password/ \
+      -H 'Content-Type: application/json' \
+      -b cookie-jar.txt \ # Send the session cookie for authentication
+      -d '{
+        "old_password": "a_strong_password",
+        "new_password": "a_even_stronger_password",
+        "confirm_new_password": "a_even_stronger_password"
+    }'
+    ```
+
+*   **Success Response (200 OK)**:
+
+    ```json
+    {
+        "detail": "Password updated successfully."
+    }
+    ```
+
+*   **Error Responses**:
+    *   `400 Bad Request`:
+        *   `{"detail": "New passwords must match."}`
+        *   `{"detail": "Old password is not correct."}`
+    *   `401 Unauthorized`: If the user is not authenticated.
