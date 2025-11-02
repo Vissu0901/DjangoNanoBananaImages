@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model, authenticate
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
 import re
+from .models import NanoBananaCard
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,3 +67,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('email', 'username')
+
+class NanoBananaCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NanoBananaCard
+        fields = ('id', 'prompt', 'image', 'created_at')

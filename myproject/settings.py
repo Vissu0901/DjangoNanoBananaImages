@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-!your-secret-key-here!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['djangonanobananaimages.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['djangonanobananaimages.onrender.com', 'localhost', '127.0.0.1', '192.168.25.2']
 
 
 # Application definition
@@ -112,6 +112,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -2,8 +2,9 @@ from django.contrib.auth import get_user_model, login, logout
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import UserRegisterSerializer, UserLoginSerializer, UserSerializer, ChangePasswordSerializer
+from .serializers import UserRegisterSerializer, UserLoginSerializer, UserSerializer, ChangePasswordSerializer, NanoBananaCardSerializer
 from rest_framework import permissions, status
+from .models import NanoBananaCard
 
 
 class WelcomeView(APIView):
@@ -69,3 +70,24 @@ class ChangePasswordView(APIView):
         user.set_password(new_password)
         user.save()
         return Response({'detail': 'Password updated successfully.'}, status=status.HTTP_200_OK)
+
+
+class CardCreateView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [SessionAuthentication]
+
+    def post(self, request):
+        serializer = NanoBananaCardSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class UserDashboardView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [SessionAuthentication]
+
+    def get(self, request):
+        cards = NanoBananaCard.objects.filter(user=request.user)
+        serializer = NanoBananaCardSerializer(cards, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

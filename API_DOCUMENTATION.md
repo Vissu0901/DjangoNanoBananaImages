@@ -207,3 +207,86 @@ Change the password for the currently authenticated user.
         *   `{"detail": "New passwords must match."}`
         *   `{"detail": "Old password is not correct."}`
     *   `401 Unauthorized`: If the user is not authenticated.
+
+---
+
+## Nano Banana Cards
+
+### 1. Create a Card
+
+Create a new Nano Banana Card.
+
+*   **Endpoint**: `/api/cards/create/`
+*   **Method**: `POST`
+*   **Authentication**: Session Authentication required.
+*   **Description**: This endpoint allows a logged-in user to create a new card by providing a prompt and an image.
+*   **Headers**:
+    *   `Content-Type`: `multipart/form-data`
+*   **Request Body**:
+    *   `prompt` (text)
+    *   `image` (file)
+
+*   **Example `curl` Request**:
+
+    ```bash
+    curl -X POST \
+      http://127.0.0.1:8000/api/cards/create/ \
+      -H "Content-Type: multipart/form-data" \
+      -b cookie-jar.txt \ # Send the session cookie for authentication
+      -F "prompt=A beautiful banana" \
+      -F "image=@/path/to/your/image.jpg"
+    ```
+
+*   **Success Response (201 Created)**:
+
+    ```json
+    {
+        "id": 1,
+        "prompt": "A beautiful banana",
+        "image": "/media/cards/image.jpg",
+        "created_at": "2025-11-02T12:00:00Z"
+    }
+    ```
+
+*   **Error Responses**:
+    *   `400 Bad Request`: If the request body is missing required fields or if the data is invalid.
+    *   `401 Unauthorized`: If the user is not authenticated.
+
+### 2. User Dashboard
+
+Retrieve all cards for the currently authenticated user.
+
+*   **Endpoint**: `/api/dashboard/`
+*   **Method**: `GET`
+*   **Authentication**: Session Authentication required.
+*   **Description**: This endpoint returns a list of all Nano Banana Cards created by the currently logged-in user.
+
+*   **Example `curl` Request**:
+
+    ```bash
+    curl -X GET \
+      http://127.0.0.1:8000/api/dashboard/ \
+      -b cookie-jar.txt # Send the session cookie for authentication
+    ```
+
+*   **Success Response (200 OK)**:
+
+    ```json
+    [
+        {
+            "id": 1,
+            "prompt": "A beautiful banana",
+            "image": "/media/cards/image.jpg",
+            "created_at": "2025-11-02T12:00:00Z"
+        },
+        {
+            "id": 2,
+            "prompt": "A funny banana",
+            "image": "/media/cards/another_image.jpg",
+            "created_at": "2025-11-02T12:05:00Z"
+        }
+    ]
+    ```
+
+*   **Error Responses**:
+    *   `401 Unauthorized`: If the user is not authenticated.
