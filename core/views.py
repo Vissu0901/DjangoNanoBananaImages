@@ -41,7 +41,7 @@ class UserLogin(APIView):
             value=request.session.session_key,
             domain='192.168.25.2',
             samesite='None',
-            secure=True,
+            secure=False,
             httponly=True
         )
 
