@@ -14,7 +14,7 @@ This section details the endpoints for user authentication.
 
 Create a new user account.
 
-*   **Endpoint**: `/api/register`
+*   **Endpoint**: `/api/register/`
 *   **Method**: `POST`
 *   **Description**: This endpoint allows new users to register. It requires a unique username, a valid email address, and a password.
 *   **Headers**:
@@ -40,7 +40,7 @@ Create a new user account.
 
     ```bash
     curl -X POST \
-      http://127.0.0.1:8000/api/register \
+      http://127.0.0.1:8000/api/register/ \
       -H 'Content-Type: application/json' \
       -d '{
         "username": "newuser",
@@ -66,7 +66,7 @@ Create a new user account.
 
 Authenticate a user and create a session.
 
-*   **Endpoint**: `/api/login`
+*   **Endpoint**: `/api/login/`
 *   **Method**: `POST`
 *   **Description**: This endpoint allows users to log in with their email and password. A successful login will create a session and return a session cookie.
 *   **Headers**:
@@ -84,7 +84,7 @@ Authenticate a user and create a session.
 
     ```bash
     curl -X POST \
-      http://127.0.0.1:8000/api/login \
+      http://127.0.0.1:8000/api/login/ \
       -H 'Content-Type: application/json' \
       -c cookie-jar.txt \ # Use -c to save the session cookie
       -d '{
@@ -95,7 +95,6 @@ Authenticate a user and create a session.
 
 *   **Success Response (200 OK)**:
     *   A `sessionid` cookie is set in the response headers, which should be included in subsequent requests to authenticated endpoints.
-    *   A `token` cookie is also set with the session ID as its value. This cookie is `HttpOnly`, `Secure`, and has `SameSite=None`.
     *   The response body will contain a message and the user's email.
 
     ```json
@@ -114,7 +113,7 @@ Authenticate a user and create a session.
 
 Log out the currently authenticated user.
 
-*   **Endpoint**: `/api/logout`
+*   **Endpoint**: `/api/logout/`
 *   **Method**: `POST`
 *   **Authentication**: Session Authentication required.
 *   **Description**: This endpoint logs out the user by clearing their session.
@@ -123,7 +122,7 @@ Log out the currently authenticated user.
 
     ```bash
     curl -X POST \
-      http://127.0.0.1:8000/api/logout \
+      http://127.0.0.1:8000/api/logout/ \
       -b cookie-jar.txt # Send the session cookie
     ```
 
@@ -137,7 +136,7 @@ Log out the currently authenticated user.
 
 Retrieve the details of the currently authenticated user.
 
-*   **Endpoint**: `/api/user`
+*   **Endpoint**: `/api/user/`
 *   **Method**: `GET`
 *   **Authentication**: Session Authentication required.
 *   **Description**: This endpoint returns the `email` and `username` of the currently logged-in user.
@@ -146,7 +145,7 @@ Retrieve the details of the currently authenticated user.
 
     ```bash
     curl -X GET \
-      http://127.0.0.1:8000/api/user \
+      http://127.0.0.1:8000/api/user/ \
       -b cookie-jar.txt # Send the session cookie for authentication
     ```
 
@@ -260,7 +259,7 @@ Retrieve all cards for the currently authenticated user.
 *   **Endpoint**: `/api/dashboard/`
 *   **Method**: `GET`
 *   **Authentication**: Session Authentication required.
-*   **Description**: This endpoint returns a list of all Nano Banana Cards created by the currently logged-in user.
+*   **Description**: This endpoint returns a message indicating that the dashboard is under development.
 
 *   **Example `curl` Request**:
 
@@ -273,20 +272,9 @@ Retrieve all cards for the currently authenticated user.
 *   **Success Response (200 OK)**:
 
     ```json
-    [
-        {
-            "id": 1,
-            "prompt": "A beautiful banana",
-            "image": "/media/cards/image.jpg",
-            "created_at": "2025-11-02T12:00:00Z"
-        },
-        {
-            "id": 2,
-            "prompt": "A funny banana",
-            "image": "/media/cards/another_image.jpg",
-            "created_at": "2025-11-02T12:05:00Z"
-        }
-    ]
+    {
+        "message": "development in progress"
+    }
     ```
 
 *   **Error Responses**:

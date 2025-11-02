@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .serializers import UserRegisterSerializer, UserLoginSerializer, UserSerializer, ChangePasswordSerializer, NanoBananaCardSerializer
 from rest_framework import permissions, status
 from .models import NanoBananaCard
+from .utils import CsrfExemptSessionAuthentication
 
 
 class WelcomeView(APIView):
@@ -31,26 +32,15 @@ class UserLogin(APIView):
 		user = serializer.check_user(serializer.validated_data)
 		login(request, user)
 
-		response = Response({
+		return Response({
             'message': 'development in progress',
             'email': user.email
         }, status=status.HTTP_200_OK)
 
-		response.set_cookie(
-            key='token',
-            value=request.session.session_key,
-            domain='192.168.25.2',
-            samesite='None',
-            secure=False,
-            httponly=True
-        )
-
-		return response
-
 
 class UserLogout(APIView):
 	permission_classes = [permissions.IsAuthenticated]
-	authentication_classes = [SessionAuthentication]
+	authentication_classes = [CsrfExemptSessionAuthentication]
 	def post(self, request):
 		logout(request)
 		return Response(status=status.HTTP_200_OK)
@@ -100,6 +90,4 @@ class UserDashboardView(APIView):
     authentication_classes = [SessionAuthentication]
 
     def get(self, request):
-        cards = NanoBananaCard.objects.filter(user=request.user)
-        serializer = NanoBananaCardSerializer(cards, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({'message': 'development in progress'}, status=status.HTTP_200_OK)

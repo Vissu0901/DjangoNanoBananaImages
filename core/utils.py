@@ -1,5 +1,15 @@
 from rest_framework.views import exception_handler
 from rest_framework.exceptions import ValidationError
+from rest_framework.authentication import SessionAuthentication
+
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+    """
+    SessionAuthentication without CSRF checks.
+    """
+    def enforce_csrf(self, request):
+        return  # To not perform the csrf check previously happening
+
 
 def custom_exception_handler(exc, context):
     # Call REST framework's default exception handler first,
