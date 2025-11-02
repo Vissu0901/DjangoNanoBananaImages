@@ -126,6 +126,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 
+SESSION_COOKIE_DOMAIN = '192.168.25.2'
+
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'core.utils.custom_exception_handler'
 }
