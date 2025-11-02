@@ -30,10 +30,22 @@ class UserLogin(APIView):
 		serializer.is_valid(raise_exception=True)
 		user = serializer.check_user(serializer.validated_data)
 		login(request, user)
-		return Response({
+
+		response = Response({
             'message': 'development in progress',
             'email': user.email
         }, status=status.HTTP_200_OK)
+
+		response.set_cookie(
+            key='token',
+            value=request.session.session_key,
+            domain='192.168.25.2',
+            samesite='None',
+            secure=True,
+            httponly=True
+        )
+
+		return response
 
 
 class UserLogout(APIView):

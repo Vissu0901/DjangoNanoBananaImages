@@ -95,6 +95,7 @@ Authenticate a user and create a session.
 
 *   **Success Response (200 OK)**:
     *   A `sessionid` cookie is set in the response headers, which should be included in subsequent requests to authenticated endpoints.
+    *   A `token` cookie is also set with the session ID as its value. This cookie is `HttpOnly`, `Secure`, and has `SameSite=None`.
     *   The response body will contain a message and the user's email.
 
     ```json
