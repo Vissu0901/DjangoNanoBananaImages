@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from .serializers import UserRegisterSerializer, UserLoginSerializer, UserSerializer, ChangePasswordSerializer, NanoBananaCardSerializer
 from rest_framework import permissions, status
 from .models import NanoBananaCard
-from .utils import CsrfExemptSessionAuthentication
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 class WelcomeView(APIView):
@@ -13,6 +14,7 @@ class WelcomeView(APIView):
     def get(self, request):
         return Response({'message': 'welcome, to Nano Banana image generator'}, status=status.HTTP_200_OK)
 
+@method_decorator(csrf_exempt, name='dispatch')
 class UserRegister(APIView):
 	permission_classes = [permissions.AllowAny]
 	authentication_classes = []
@@ -23,6 +25,7 @@ class UserRegister(APIView):
 		return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class UserLogin(APIView):
 	permission_classes = [permissions.AllowAny]
 	authentication_classes = []
@@ -38,9 +41,10 @@ class UserLogin(APIView):
         }, status=status.HTTP_200_OK)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class UserLogout(APIView):
 	permission_classes = [permissions.IsAuthenticated]
-	authentication_classes = [CsrfExemptSessionAuthentication]
+	authentication_classes = [SessionAuthentication]
 	def post(self, request):
 		logout(request)
 		return Response(status=status.HTTP_200_OK)
